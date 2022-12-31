@@ -11,7 +11,11 @@ spring:
     show-sql: true
   hibernate:
     ddl-auto: create
+  jackson:
+    serialization:
+      indent_output: true
 
-servlet:
-  port: 8081
-  context-path: /data
+server:
+  port: 8181
+  servlet:
+    context-path: /data
