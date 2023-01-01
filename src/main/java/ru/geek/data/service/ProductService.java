@@ -30,13 +30,8 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProductById(Long id) throws NoSuchObjectException {
-        Optional<Product> byId = productRepository.findById(id);
-        if (byId.isEmpty()) {
-            throw new NoSuchObjectException("no product with given id");
-        } else {
-            productRepository.deleteById(id);
-        }
+    public void deleteProductById(Long id){
+        productRepository.deleteById(id);
     }
 
     @Transactional
