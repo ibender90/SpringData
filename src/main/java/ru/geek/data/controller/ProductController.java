@@ -49,22 +49,12 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseStatusException deleteProductById(@PathVariable Long id) { //пока так сделал, импровизация
-        try {
-            productService.deleteProductById(id);
-        } catch (NoSuchObjectException e) {
-            return new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseStatusException(HttpStatus.OK);
+    public void deleteProductById(@PathVariable Long id) {
+        productService.deleteProductById(id);
     }
 
-    @PostMapping("/save")
+    @PostMapping()
     public void saveNewProduct(@RequestBody Product product) {
-        //тестил через Postman, отправлял JSON в теле Post запроса
-//        {
-//            "name" : "Seledka",
-//           "price" : 0.20
-//        }
         productService.save(product);
     }
 }
