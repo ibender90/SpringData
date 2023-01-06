@@ -15,5 +15,5 @@ public class Product {
     private String name;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 }

@@ -11,6 +11,15 @@
 </head>
 <body>
 <div class="container" ng-controller="indexController">
+    <h3>Search form</h3>
+    <form novalidate ng-submit="loadProducts()">
+        <p><input class="form-control" type="text" placeholder="name or part of name" ng-model="filter.name_part"></p>
+        <p><input class="form-control" type="number" placeholder="minimal price" ng-model="filter.min_price"></p>
+        <p><input class="form-control" type="number" placeholder="maximal price" ng-model="filter.max_price"></p>
+        <div>
+            <button type="submit" class="btn btn-primary">Find</button>
+        </div>
+    </form>
     <h3>Products list</h3>
     <table class="table table-hover">
         <tr>
