@@ -1,29 +1,25 @@
 package ru.geek.data.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.geek.data.DTO.ProductDTO;
+import ru.geek.data.DTOconverter.ProductDTOconverter;
+import ru.geek.data.exceptions.ResourceNotFoundException;
 import ru.geek.data.model.Product;
 import ru.geek.data.service.ProductService;
+import ru.geek.data.validator.ProductValidator;
 
-import java.rmi.NoSuchObjectException;
-import java.util.List;
-import java.util.Optional;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/products")
 public class ProductController {
+    private final ProductService productService;
+    private final ProductDTOconverter productDTOconverter;
 
-    private ProductService productService;
-
-    @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
-
+    private final ProductValidator productValidator;
     @GetMapping
     public Page<ProductDTO> getAllProducts(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
@@ -35,13 +31,14 @@ public class ProductController {
             page = 1;
         }
         return productService.find(minPrice, maxPrice, namePart, page).map(
-                s-> new ProductDTO(s)
+                productDTOconverter::covertProductEntityToDTO
         );
     }
 
     @GetMapping("/{id}")
     public ProductDTO getProductById(@PathVariable Long id) {
-        return new ProductDTO(productService.findProductById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+        return productDTOconverter.covertProductEntityToDTO(productService.findProductById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product with given id was not found")));
     }
 
     @DeleteMapping("/{id}")
@@ -51,18 +48,16 @@ public class ProductController {
 
     @PostMapping()
     public ProductDTO saveNewProduct(@RequestBody ProductDTO productDTO) {
-        Product newProduct = new Product();
-        newProduct.setName(productDTO.getName());
-        newProduct.setPrice(productDTO.getPrice());
-        return new ProductDTO(productService.save(newProduct));
+        productValidator.validate(productDTO);
+        Product newProduct = productDTOconverter.convertDTOtoProductEntity(productDTO);
+        Product savedProduct = productService.save(newProduct);
+        return productDTOconverter.covertProductEntityToDTO(savedProduct);
     }
 
     @PutMapping()
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO){
-        Product productToUpdate = new Product();
-        productToUpdate.setId(productDTO.getId());
-        productToUpdate.setName(productDTO.getName());
-        productToUpdate.setPrice(productDTO.getPrice());
-        return new ProductDTO(productService.save(productToUpdate));
+        productValidator.validate(productDTO);
+        Product updatedProduct = productService.update(productDTO);
+        return productDTOconverter.covertProductEntityToDTO(updatedProduct);
     }
 }
