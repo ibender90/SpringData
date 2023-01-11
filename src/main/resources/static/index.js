@@ -15,6 +15,20 @@ angular.module('data_and_angular', []).controller('indexController', function ($
             });
     };
 
+    $scope.loadCart = function () {
+        $http.get(contextPath + '/added_to_cart_products')
+            .then(function (response){
+                    $scope.PurchasedProductsList = response.data;
+                });
+    };
+
+    $scope.removeProductFromCart = function(productID) {
+        $http.delete(contextPath + '/added_to_cart_products/' + productID)
+            .then(function (response){
+                 $scope.loadCart();
+        });
+    };
+
     $scope.deleteProduct = function (productID) {
         $http.delete(contextPath + '/products/' + productID)
             .then(function (response){
@@ -23,12 +37,19 @@ angular.module('data_and_angular', []).controller('indexController', function ($
     };
 
     $scope.addNewProduct = function(newProduct){
-        console.log($scope.newProduct);
         $http.post(contextPath + '/products', $scope.newProduct)
             .then(function (response){
                 $scope.loadProducts();
         });
     };
 
+    $scope.addProductToCart = function(productToAdd){
+            $http.post(contextPath + '/added_to_cart_products', productToAdd)
+                .then(function (response){
+                    $scope.loadCart();
+            });
+        };
+
     $scope.loadProducts();
+    $scope.loadCart();
 });

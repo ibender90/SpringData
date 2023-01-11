@@ -1,6 +1,7 @@
 package ru.geek.data.generated_data;
 
 import com.github.javafaker.Faker;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,8 @@ import ru.geek.data.repository.ProductRepository;
 
 
 @Component
+@Slf4j
 public class ProductGenerator {
-    private final Logger logger = LoggerFactory.getLogger(ProductGenerator.class);
     private ProductRepository productRepository;
 
     private static final int PRODUCTS_TO_GENERATE = 20;
@@ -35,6 +36,6 @@ public class ProductGenerator {
 
             productRepository.save(product);
         }
-        logger.info("Products generated successfully");
+        log.info("Products generated successfully");
     }
 }
