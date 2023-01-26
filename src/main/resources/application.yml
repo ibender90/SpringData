@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/jwt_sequre_db
+    url: jdbc:postgresql://localhost:5432/jwt_secure_db
     username: postgres
     password: kolbaska
     driver-class-name: org.postgresql.Driver
@@ -20,4 +20,4 @@ spring:
 server:
   port: 8181
   servlet:
-    context-path: /data_and_angular
+      context-path: /data_and_angular
