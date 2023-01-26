@@ -1,16 +1,18 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
+    url: jdbc:postgresql://localhost:5432/jwt_sequre_db
+    username: postgres
+    password: kolbaska
+    driver-class-name: org.postgresql.Driver
   jpa:
+    hibernate:
+      ddl-auto: create-drop
     show-sql: true
-  hibernate:
-    ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   jackson:
     serialization:
       indent_output: true
