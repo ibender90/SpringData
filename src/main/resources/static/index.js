@@ -15,6 +15,13 @@ angular.module('data_and_angular', []).controller('indexController', function ($
             });
     };
 
+    $scope.showProductInfo = function (productID) {
+        $http.get(contextPath + '/products/' + productID)
+            .then(function (response){
+                alert(response.data);
+            });
+    };
+
     $scope.loadCart = function () {
         $http.get(contextPath + '/added_to_cart_products')
             .then(function (response){

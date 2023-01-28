@@ -10,6 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -21,17 +23,35 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(roles.name()));
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = new LinkedList<>();
+        for (Role role :
+                roles) {
+            simpleGrantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            System.out.println(role.getName());
+        }
+        return simpleGrantedAuthorities;
     }
 
     @Override
