@@ -26,16 +26,16 @@ public class ProductGenerator {
         this.productRepository = productRepository;
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void generateDataForDataBase() {
-        Faker faker = new Faker();
-        for (int i = 0; i < PRODUCTS_TO_GENERATE; i++) {
-            Product product = new Product();
-            product.setName(faker.food().vegetable());
-            product.setPrice(Math.ceil((faker.random().nextDouble()) * SCALE) / SCALE);
-
-            productRepository.save(product);
-        }
-        log.info("Products generated successfully");
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void generateDataForDataBase() {
+//        Faker faker = new Faker();
+//        for (int i = 0; i < PRODUCTS_TO_GENERATE; i++) {
+//            Product product = new Product();
+//            product.setName(faker.food().vegetable());
+//            product.setPrice(Math.ceil((faker.random().nextDouble()) * SCALE) / SCALE);
+//
+//            productRepository.save(product);
+//        }
+//        log.info("Products generated successfully");
+//    }
 }
