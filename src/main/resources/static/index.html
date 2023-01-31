@@ -47,7 +47,7 @@
                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                     <button type="button" class="btn btn-danger" ng-click="deleteProduct(p.id)">Delete</button>
                     <button type="button" class="btn btn-warning" ng-click="showProductInfo(p.id)">View</button>
-                    <button type="button" class="btn btn-success" ng-click="addProductToCart(p)">Add to Cart</button>
+                    <button type="button" class="btn btn-success" ng-click="addProductToCart(p.id)">Add to Cart</button>
                 </div>
             </td>
         </tr>
@@ -56,22 +56,28 @@
     <H3>Cart</H3>
     <table class="table table-hover">
         <tr>
-            <td>ID</td>
             <td>Product name</td>
-            <td>Price</td>
+            <td>Product price</td>
+            <td>Quantity</td>
+            <td>Calculated price</td>
             <td>Action</td>
         </tr>
         <tbody>
-        <tr ng-repeat="c in PurchasedProductsList">
-            <td>{{c.id}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.price}}</td>
+        <tr ng-repeat="item in cart.cartItems">
+            <td>{{item.productName}}</td>
+            <td>{{item.productPrice}}</td>
+            <td><button class="btn btn-danger" ng-click="reduceQuantity(item.productId)">-</button>
+                {{item.quantity}}
+                <button class="btn btn-primary" ng-click="increaseQuantity(item.productId)">+</button></td>
+            <td>{{item.priceCalculated}}</td>
             <td>
-                <button class="btn btn-danger" ng-click="removeProductFromCart(c.id)">Remove</button>
+                <button class="btn btn-danger" ng-click="removeProductFromCart(item.productId)">Remove</button>
             </td>
         </tr>
         </tbody>
     </table>
+    <div>Total price is: {{cart.totalPrice}}</div>
+    <button class="btn btn-primary" ng-click="placeOrder(cart)">Place order</button>
 </div>
 </body>
 </html>

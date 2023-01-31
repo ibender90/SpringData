@@ -23,18 +23,33 @@ angular.module('data_and_angular', []).controller('indexController', function ($
     };
 
     $scope.loadCart = function () {
-        $http.get(contextPath + '/added_to_cart_products')
+        $http.get(contextPath + '/cart')
             .then(function (response){
-                    $scope.PurchasedProductsList = response.data;
+                    $scope.cart = response.data;
                 });
     };
 
-    $scope.removeProductFromCart = function(productID) {
-        $http.delete(contextPath + '/added_to_cart_products/' + productID)
+    $scope.removeProductFromCart = function (itemID) {
+        $http.delete(contextPath + '/cart/remove/' + itemID)
             .then(function (response){
                  $scope.loadCart();
         });
     };
+
+    $scope.reduceQuantity = function (itemID) {
+        $http.get(contextPath + '/cart/reduce/' + itemID)
+              .then(function (response){
+                            $scope.loadCart();
+        });
+    };
+
+    $scope.increaseQuantity = function (itemID) {
+        $http.get(contextPath + '/cart/increase/' + itemID)
+            .then(function (response){
+                 $scope.loadCart();
+        });
+    };
+
 
     $scope.deleteProduct = function (productID) {
         $http.delete(contextPath + '/products/' + productID)
@@ -50,12 +65,19 @@ angular.module('data_and_angular', []).controller('indexController', function ($
         });
     };
 
-    $scope.addProductToCart = function(productToAdd){
-            $http.post(contextPath + '/added_to_cart_products', productToAdd)
+    $scope.addProductToCart = function(productId){
+            $http.get(contextPath + '/cart/add/' + productId)
                 .then(function (response){
                     $scope.loadCart();
             });
         };
+
+    $scope.placeOrder = function(cart){
+            $http.post(contextPath + '/orders/new', $scope.cart)
+                .then(function(response){
+                    alert(response.data);
+                });
+    }
 
     $scope.loadProducts();
     $scope.loadCart();

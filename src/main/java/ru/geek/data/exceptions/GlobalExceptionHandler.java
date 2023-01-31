@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice //класс будет применён ко всем контроллерам
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler
