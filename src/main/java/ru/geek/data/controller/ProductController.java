@@ -3,14 +3,18 @@ package ru.geek.data.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.geek.data.DTO.ProductDTO;
 import ru.geek.data.DTOconverter.ProductDTOconverter;
+import ru.geek.data.exceptions.AppError;
 import ru.geek.data.exceptions.ResourceNotFoundException;
 import ru.geek.data.model.Product;
 import ru.geek.data.service.ProductService;
 import ru.geek.data.validator.ProductValidator;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,6 +24,7 @@ public class ProductController {
     private final ProductDTOconverter productDTOconverter;
 
     private final ProductValidator productValidator;
+
     @GetMapping
     public Page<ProductDTO> getAllProducts(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
@@ -27,7 +32,7 @@ public class ProductController {
             @RequestParam(name = "max_price", required = false) Double maxPrice,
             @RequestParam(name = "name_part", required = false) String namePart
     ) {
-        if(page < 1){
+        if (page < 1) {
             page = 1;
         }
         return productService.find(minPrice, maxPrice, namePart, page).map(
@@ -35,10 +40,25 @@ public class ProductController {
         );
     }
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+//
+//        Optional<Product> product = productService.findProductById(id);
+//
+//        if (product.isEmpty()) { // если продукта в контейнере нет
+//            return new ResponseEntity<AppError>(
+//                    new AppError(HttpStatus.NOT_FOUND.value(), "Product not found"), HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<ProductDTO>( //если продукт есть, конвертирую в DTO и отсылаю как response entity
+//                productDTOconverter.covertProductEntityToDTO(product.get()), HttpStatus.OK);
+//    }
+
     @GetMapping("/{id}")
-    public ProductDTO getProductById(@PathVariable Long id) {
-        return productDTOconverter.covertProductEntityToDTO(productService.findProductById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product with given id was not found")));
+    public ProductDTO getProductByID(@PathVariable Long id) {
+        return productDTOconverter.covertProductEntityToDTO(
+                productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException( //Global exception handler перехватит эту ошибку и упакует в Response entity
+                        "Product not found, id: " + id)
+                ));
     }
 
     @DeleteMapping("/{id}")
@@ -55,7 +75,7 @@ public class ProductController {
     }
 
     @PutMapping()
-    public ProductDTO updateProduct(@RequestBody ProductDTO productDTO){
+    public ProductDTO updateProduct(@RequestBody ProductDTO productDTO) {
         productValidator.validate(productDTO);
         Product updatedProduct = productService.update(productDTO);
         return productDTOconverter.covertProductEntityToDTO(updatedProduct);
