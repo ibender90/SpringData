@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import ru.geek.data.annotation.LogExecutionTime;
 import ru.geek.data.model.Product;
 import ru.geek.data.repository.ProductRepository;
 
 
 @Component
 @Slf4j
+@LogExecutionTime
 public class ProductGenerator {
     private ProductRepository productRepository;
 
@@ -25,6 +27,7 @@ public class ProductGenerator {
     public void setProductRepository(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void generateDataForDataBase() {

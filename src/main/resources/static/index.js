@@ -77,7 +77,7 @@ angular.module('data_and_angular', []).controller('indexController', function ($
                 .then(function(response){
                     alert(response.data);
                 });
-    }
+    };
 
     $scope.loadProducts();
     $scope.loadCart();

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.data.DTO.ProductDTO;
+import ru.geek.data.annotation.LogExecutionTime;
 import ru.geek.data.exceptions.ResourceNotFoundException;
 import ru.geek.data.model.Product;
 import ru.geek.data.repository.ProductRepository;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@LogExecutionTime
 public class ProductService {
     private final ProductRepository productRepository;
     private static final int PRODUCTS_PER_PAGE = 5;
