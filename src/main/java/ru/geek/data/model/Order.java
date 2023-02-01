@@ -43,12 +43,7 @@ public class Order {
         productIdAndQuantity = new HashMap<>();
         for (CartItem item :
                 cartItems) {
-
-            int quantity = 1;
-            if (productIdAndQuantity.containsKey(item.getProductId())) {
-                quantity = productIdAndQuantity.get(item.getProductId() + 1);
-            }
-            productIdAndQuantity.put(item.getProductId(), quantity);
+            productIdAndQuantity.put(item.getProductId(), item.getQuantity());
         }
     }
 
