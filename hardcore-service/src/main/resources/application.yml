@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jwt_secure_db
+    username: postgres
+    password: kolbaska
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      indent_output: true
+
+server:
+  port: 8181
+  servlet:
+      context-path: /market
