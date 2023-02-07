@@ -1,6 +1,6 @@
 angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
-    const corePath = 'http://localhost:8181/market/api/v1';
-    const cartPath = 'http://localhost:8182/market-carts/api/v1/cart';
+    const corePath = 'http://localhost:8181/market-core/api/v1';
+    const cartPath = 'http://localhost:8182/market-carts/api/v1/carts';
 
     if ($localStorage.marchMarketUser) {
             try {

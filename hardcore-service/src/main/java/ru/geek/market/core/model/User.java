@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "order")
+    @Column(name = "orders")
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 

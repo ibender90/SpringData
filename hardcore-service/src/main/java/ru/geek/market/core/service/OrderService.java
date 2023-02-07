@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.market.api.DTO.CartDto;
 import ru.geek.market.api.DTO.CartItemDto;
+import ru.geek.market.core.integration.CartServiceIntegration;
 import ru.geek.market.core.model.Order;
 import ru.geek.market.core.model.OrderItem;
 import ru.geek.market.core.model.User;
@@ -22,23 +23,14 @@ public class OrderService {
     private final ProductService productService;
     private final OrderRepository orderRepository;
 
+    private final CartServiceIntegration cartServiceIntegration;
+
     @Transactional
     public void placeNewOrder(User user) {
-        CartDto cartDto = new CartDto(); //cartServiceIntegration.getCurrentCart()
-
-        CartItemDto ci = new CartItemDto();
-        ci.setProductId(1L);
-        ci.setQuantity(1);
-        ci.setProductPrice(1.0);
-
-        List<CartItemDto> itemsInCart = new ArrayList<>();
-        itemsInCart.add(ci);
-
-        cartDto.setCartItems(itemsInCart);
-        cartDto.setTotalPrice(1.0);
+        CartDto cartDto = cartServiceIntegration.getCurrentCart();
 
         Order newOrder = new Order();
-        newOrder.setUser(user); //todo fix hardcode
+        newOrder.setUser(user);
         newOrder.setTotalPriceFromCart(cartDto.getTotalPrice());
         newOrder.setItems(
                 cartDto.getCartItems().stream().map(
@@ -53,6 +45,6 @@ public class OrderService {
 
         orderRepository.save(newOrder);
 
-        //cartServiceIntegration.ClearCart();
+        cartServiceIntegration.ClearCart();
     }
 }

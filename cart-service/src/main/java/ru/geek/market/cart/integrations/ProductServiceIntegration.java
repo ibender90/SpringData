@@ -1,6 +1,9 @@
 package ru.geek.market.cart.integrations;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ru.geek.market.api.DTO.ProductDto;
@@ -12,9 +15,12 @@ import java.util.Optional;
 public class ProductServiceIntegration {
     private final RestTemplate restTemplate;
 
+    @Value("${productServiceIntegration.endpoint}")
+    private String endpointURL;
+
     public Optional<ProductDto> detProductByID(Long id){ //add dependency on module api to get ProductDto model
         ProductDto productDto = restTemplate.getForObject(
-                "http://localhost:8181/market/api/v1/products/" + id, ProductDto.class
+                endpointURL + id, ProductDto.class
         );                                                                 //ProductDto is expected in response
         return Optional.ofNullable(productDto); //todo handle exceptions
     }

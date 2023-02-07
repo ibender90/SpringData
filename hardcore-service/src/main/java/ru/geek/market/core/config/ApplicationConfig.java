@@ -3,6 +3,7 @@ package ru.geek.market.core.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,10 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 import ru.geek.market.core.repository.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor
+@PropertySource("classpath:endpoint.properties")
 public class ApplicationConfig {
 
     private final UserRepository userRepository;
@@ -41,6 +44,11 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public RestTemplate restTemplate(){ //бин для передачи запросов по rest
+        return new RestTemplate();
     }
 
 

@@ -7,12 +7,14 @@
 		<module>cart-service</module>
 		<module>hardcore-service</module>
 		<module>api</module>
+		<module>frontend</module>
 	</modules>
 
 	<groupId>ru.geek</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
+
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>19</java.version>

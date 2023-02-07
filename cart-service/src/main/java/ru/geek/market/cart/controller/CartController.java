@@ -10,7 +10,7 @@ import ru.geek.market.cart.service.CartService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/cart")
+@RequestMapping("/api/v1/carts")
 @CrossOrigin("*") //todo security
 public class CartController {
     private final CartService cartService;
@@ -19,6 +19,11 @@ public class CartController {
     @GetMapping
     public CartDto getCurrentCart(){
         return cartConverter.entityToDto(cartService.getCurrentCart());
+    }
+
+    @DeleteMapping
+    public void clearCart(){
+        cartService.clearCart();
     }
 
     @GetMapping("/add/{product_id}")

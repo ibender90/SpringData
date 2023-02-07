@@ -42,7 +42,8 @@ public class CartService {
         cart.removeProduct(id);
     }
 
-//    public void deleteProductById(Long id) {
-//        cart.getProductDTOList().removeIf(p -> p.getId().equals(id));
-//    }
+    public void clearCart() {
+        this.cart = new Cart();
+    }
+
 }
