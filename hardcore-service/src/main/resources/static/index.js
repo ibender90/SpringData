@@ -1,6 +1,55 @@
-angular.module('data_and_angular', []).controller('indexController', function ($scope, $http){
+angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
     const corePath = 'http://localhost:8181/market/api/v1';
     const cartPath = 'http://localhost:8182/market-carts/api/v1/cart';
+
+    if ($localStorage.marchMarketUser) {
+            try {
+                let jwt = $localStorage.marchMarketUser.token;
+                let payload = JSON.parse(atob(jwt.split('.')[1]));
+                let currentTime = parseInt(new Date().getTime() / 1000);
+                if (currentTime > payload.exp) {
+                    console.log("Token is expired!!!");
+                    delete $localStorage.marchMarketUser;
+                    $http.defaults.headers.common.Authorization = '';
+                }
+            } catch (e) {
+            }
+
+            if ($localStorage.marchMarketUser) {
+                $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marchMarketUser.token;
+            }
+    }
+
+    $scope.tryToAuth = function () {
+            $http.post(corePath + '/auth/authenticate', $scope.user)
+                .then(function successCallback(response) {
+                    if (response.data.token) {
+                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                        $localStorage.marchMarketUser = {email: $scope.user.email, token: response.data.token};
+
+                        $scope.user.email = null;
+                        $scope.user.password = null;
+                    }
+                }, function errorCallback(response) {
+                });
+    };
+
+    $scope.tryToLogout = function () {
+            $scope.clearUser();
+    };
+
+    $scope.clearUser = function () {
+            delete $localStorage.marchMarketUser;
+            $http.defaults.headers.common.Authorization = '';
+    };
+
+    $scope.isUserLoggedIn = function () {
+            if ($localStorage.marchMarketUser) {
+                return true;
+            } else {
+                return false;
+            }
+    };
 
     $scope.loadProducts = function (pageIndex = 1) {
         $http({

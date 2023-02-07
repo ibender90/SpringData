@@ -48,6 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){ //user not authenticated
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
+
             if(jwtService.isTokenValid(jsonWebToken, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken( //create token for spring security context
                         userDetails,
