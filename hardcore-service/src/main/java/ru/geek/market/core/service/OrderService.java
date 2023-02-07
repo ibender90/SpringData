@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.market.api.DTO.CartDto;
+import ru.geek.market.api.DTO.CartItemDto;
 import ru.geek.market.core.model.Order;
 import ru.geek.market.core.model.OrderItem;
 import ru.geek.market.core.model.User;
@@ -23,7 +24,19 @@ public class OrderService {
 
     @Transactional
     public void placeNewOrder(User user) {
-        CartDto cartDto = null; //cartServiceIntegration.getCurrentCart()
+        CartDto cartDto = new CartDto(); //cartServiceIntegration.getCurrentCart()
+
+        CartItemDto ci = new CartItemDto();
+        ci.setProductId(1L);
+        ci.setQuantity(1);
+        ci.setProductPrice(1.0);
+
+        List<CartItemDto> itemsInCart = new ArrayList<>();
+        itemsInCart.add(ci);
+
+        cartDto.setCartItems(itemsInCart);
+        cartDto.setTotalPrice(1.0);
+
         Order newOrder = new Order();
         newOrder.setUser(user); //todo fix hardcode
         newOrder.setTotalPriceFromCart(cartDto.getTotalPrice());

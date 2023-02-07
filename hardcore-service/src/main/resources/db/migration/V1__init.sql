@@ -50,3 +50,13 @@ create table orders (
     user_id bigint references users (id),
     total_price_from_cart decimal(12, 2)
 );
+
+create table order_items
+(
+    id                      bigserial primary key,
+    order_id                bigint references users (id),
+    product_id              bigint references products (id),
+    price_per_product       decimal(12, 2),
+    quantity                int,
+    total_price             decimal(12, 2)
+);
