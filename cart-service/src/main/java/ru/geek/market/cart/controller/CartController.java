@@ -11,7 +11,6 @@ import ru.geek.market.cart.service.CartService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/carts")
-@CrossOrigin("*") //todo security
 public class CartController {
     private final CartService cartService;
     private final CartConverter cartConverter;

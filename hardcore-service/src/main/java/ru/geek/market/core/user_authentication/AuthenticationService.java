@@ -6,8 +6,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.geek.market.api.DTO.AuthenticationRequest;
-import ru.geek.market.api.DTO.AuthenticationResponse;
+import ru.geek.market.api.DTO.JwtRequest;
+import ru.geek.market.api.DTO.JwtResponse;
 import ru.geek.market.core.config.JwtService;
 import ru.geek.market.core.repository.UserRepository;
 
@@ -34,16 +34,16 @@ public class AuthenticationService {
 //                .build();
 //    }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public JwtResponse authenticate(JwtRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getUsername(),
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(); //todo
+        var user = userRepository.findByEmail(request.getUsername()).orElseThrow(); //todo
 
         var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return new JwtResponse(jwtToken);
     }
 }

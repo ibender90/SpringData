@@ -1,10 +1,10 @@
 package ru.geek.market.api.DTO;
 
 
-public class AuthenticationResponse {
+public class JwtResponse {
     private String token;
 
-    public AuthenticationResponse(String jwtToken) {
+    public JwtResponse(String jwtToken) {
         this.token = jwtToken;
     }
 

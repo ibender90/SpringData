@@ -13,7 +13,6 @@ import ru.geek.market.core.validator.ProductValidator;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/products")
-@CrossOrigin("*") //access to endpoints from any source
 public class ProductController {
     private final ProductService productService;
     private final ProductDTOconverter productDTOconverter;

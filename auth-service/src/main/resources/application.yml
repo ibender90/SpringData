@@ -18,13 +18,7 @@ spring:
       indent_output: true
 
 server:
-  port: 8181
+  port: 8185
   servlet:
-      context-path: /market-core
+      context-path: /market-auth
 
-integrations:
-  cart-service:
-    url: http://localhost:8182/market-carts
-    connect-timeout: 5000
-    read-timeout: 10000
-    write-timeout: 5000

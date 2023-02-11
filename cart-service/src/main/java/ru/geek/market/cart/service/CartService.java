@@ -16,18 +16,19 @@ public class CartService {
     private Cart cart;
 
     @PostConstruct
-    public void initCart(){
+    public void initCart() {
         cart = new Cart();
     }
 
-    public Cart getCurrentCart(){
+    public Cart getCurrentCart() {
         return cart;
     }
 
     public void add(Long productID) {
-        ProductDto product = productServiceIntegration.detProductByID(productID)
-                .orElseThrow(()->new ResourceNotFoundException("Can not add product to cart, product not found in the database"));
-        cart.addProductToCart(product);
+        ProductDto product = productServiceIntegration.findById(productID);
+        if (product != null) {
+            cart.addProductToCart(product);
+        }
     }
 
     public void increaseProductQuantity(Long id) {

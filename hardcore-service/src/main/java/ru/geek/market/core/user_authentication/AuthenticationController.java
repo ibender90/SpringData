@@ -3,8 +3,8 @@ package ru.geek.market.core.user_authentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.geek.market.api.DTO.AuthenticationRequest;
-import ru.geek.market.api.DTO.AuthenticationResponse;
+import ru.geek.market.api.DTO.JwtRequest;
+import ru.geek.market.api.DTO.JwtResponse;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -22,8 +22,8 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request
+    public ResponseEntity<JwtResponse> authenticate(
+            @RequestBody JwtRequest request
     ){
         return ResponseEntity.ok(service.authenticate(request));
     }

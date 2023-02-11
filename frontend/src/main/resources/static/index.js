@@ -1,6 +1,6 @@
 angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
-    const corePath = 'http://localhost:8181/market-core/api/v1';
-    const cartPath = 'http://localhost:8182/market-carts/api/v1/carts';
+    const corePath = 'http://localhost:8180/core';
+    const cartPath = 'http://localhost:8180/cart';
 
     if ($localStorage.marchMarketUser) {
             try {
@@ -87,14 +87,14 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
     };
 
     $scope.reduceQuantity = function (itemID) {
-        $http.get(cartPath + '/reduce/' + itemID)
+        $http.get(cartPath + '/carts/reduce/' + itemID)
               .then(function (response){
                             $scope.loadCart();
         });
     };
 
     $scope.increaseQuantity = function (itemID) {
-        $http.get(cartPath + '/increase/' + itemID)
+        $http.get(cartPath + '/carts/increase/' + itemID)
             .then(function (response){
                  $scope.loadCart();
         });

@@ -8,6 +8,8 @@
 		<module>hardcore-service</module>
 		<module>api</module>
 		<module>frontend</module>
+		<module>gateway</module>
+		<module>auth-service</module>
 	</modules>
 
 	<groupId>ru.geek</groupId>
