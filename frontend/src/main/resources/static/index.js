@@ -1,4 +1,5 @@
 angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
+    const authPath = 'http://localhost:8180/auth';
     const corePath = 'http://localhost:8180/core';
     const cartPath = 'http://localhost:8180/cart';
 
@@ -21,7 +22,7 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
     }
 
     $scope.tryToAuth = function () {
-            $http.post(corePath + '/auth/authenticate', $scope.user)
+            $http.post(authPath + '/auth/authenticate', $scope.user)
                 .then(function successCallback(response) {
                     if (response.data.token) {
                         $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;

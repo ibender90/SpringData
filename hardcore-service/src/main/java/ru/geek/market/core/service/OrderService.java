@@ -8,10 +8,8 @@ import ru.geek.market.api.DTO.CartItemDto;
 import ru.geek.market.core.integration.CartServiceIntegration;
 import ru.geek.market.core.model.Order;
 import ru.geek.market.core.model.OrderItem;
-import ru.geek.market.core.model.User;
+
 import ru.geek.market.core.repository.OrderRepository;
-import ru.geek.market.core.repository.ProductRepository;
-import ru.geek.market.core.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +20,14 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final ProductService productService;
     private final OrderRepository orderRepository;
-
     private final CartServiceIntegration cartServiceIntegration;
 
     @Transactional
-    public void placeNewOrder(User user) {
+    public void placeNewOrder(String username) {
         CartDto cartDto = cartServiceIntegration.getCurrentCart();
 
         Order newOrder = new Order();
-        newOrder.setUser(user);
+        newOrder.setUserName(username);
         newOrder.setTotalPriceFromCart(cartDto.getTotalPrice());
         newOrder.setItems(
                 cartDto.getCartItems().stream().map(
