@@ -1,7 +1,8 @@
 angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
-    const authPath = 'http://localhost:8180/auth';
-    const corePath = 'http://localhost:8180/core';
-    const cartPath = 'http://localhost:8180/cart';
+    const authPath = 'http://localhost:8188/auth';
+    const corePath = 'http://localhost:8188/core';
+    const cartPath = 'http://localhost:8188/cart';
+
 
     if ($localStorage.marchMarketUser) {
             try {
@@ -51,7 +52,6 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
                 return false;
             }
     };
-
     $scope.loadProducts = function (pageIndex = 1) {
         $http({
             url: corePath + '/products',
@@ -63,7 +63,7 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
             }
         }).then(function (response){
                 $scope.ProductsList = response.data.content;
-            });
+            }).catch(angular.noop);
     };
 
     $scope.showProductInfo = function (productID) {
@@ -74,14 +74,14 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
     };
 
     $scope.loadCart = function () {
-        $http.get(cartPath)
+        $http.get(cartPath + '/carts')
             .then(function (response){
                     $scope.cart = response.data;
-                });
+                }).catch(angular.noop);
     };
 
     $scope.removeProductFromCart = function (itemID) {
-        $http.delete(cartPath + '/remove/' + itemID)
+        $http.delete(cartPath + '/carts/remove/' + itemID)
             .then(function (response){
                  $scope.loadCart();
         });
@@ -117,7 +117,7 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
     };
 
     $scope.addProductToCart = function(productId){
-            $http.get(cartPath + '/add/' + productId)
+            $http.get(cartPath + '/carts/add/' + productId)
                 .then(function (response){
                     $scope.loadCart();
             });

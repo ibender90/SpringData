@@ -24,10 +24,10 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return webSecurity -> webSecurity.ignoring().requestMatchers("/auth/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return webSecurity -> webSecurity.ignoring().requestMatchers("**/auth/**");
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(SecurityFilter filter, HttpSecurity httpSecurity) throws Exception {
@@ -37,11 +37,13 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-//                .requestMatchers("/api/v1/orders/**")
                 .requestMatchers("/**")
                 .permitAll()
-                //.authenticated()
                 .and()
+//                .requestMatchers("/**")
+//                .permitAll()
+//                .authenticated()
+//                .and()
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

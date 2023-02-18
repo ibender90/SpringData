@@ -9,11 +9,9 @@ import ru.geek.market.core.DTOconverter.ProductDTOconverter;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.service.ProductService;
 import ru.geek.market.core.validator.ProductValidator;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/products")
-@CrossOrigin(origins = "http://localhost:8180")
 public class ProductController {
     private final ProductService productService;
     private final ProductDTOconverter productDTOconverter;
