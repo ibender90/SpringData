@@ -48,4 +48,14 @@ public class ProductDto {
     public void setCategoryTitle(String categoryTitle) {
         this.categoryTitle = categoryTitle;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", categoryTitle='" + categoryTitle + '\'' +
+                '}';
+    }
 }

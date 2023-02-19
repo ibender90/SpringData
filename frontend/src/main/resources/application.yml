@@ -1,0 +1,5 @@
+
+server:
+  port: 8183
+  servlet:
+      context-path: /market

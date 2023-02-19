@@ -13,4 +13,8 @@ public class CartItem {
     private Double productPrice;
     private Integer quantity;
     private Double priceCalculated;
+
+    public void recalculatePriceForItem(){
+        priceCalculated = productPrice * quantity;
+    }
 }

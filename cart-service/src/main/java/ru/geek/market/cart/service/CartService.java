@@ -4,7 +4,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geek.market.api.DTO.ProductDto;
-import ru.geek.market.api.DTO.ResourceNotFoundException;
 import ru.geek.market.cart.integrations.ProductServiceIntegration;
 import ru.geek.market.cart.model.Cart;
 
@@ -16,33 +15,35 @@ public class CartService {
     private Cart cart;
 
     @PostConstruct
-    public void initCart(){
+    public void initCart() {
         cart = new Cart();
     }
 
-    public Cart getCurrentCart(){
+    public Cart getCurrentCart() {
         return cart;
     }
 
-    public void add(Long productID) {
-        ProductDto product = productServiceIntegration.detProductByID(productID)
-                .orElseThrow(()->new ResourceNotFoundException("Can not add product to cart, product not found in the database"));
-        cart.addProductToCart(product);
+    public void addProductToCart(Long productID) {
+        ProductDto product = productServiceIntegration.findById(productID);
+        if (product != null) {
+            cart.addProductToCart(product);
+        } //todo throw product not found
     }
 
     public void increaseProductQuantity(Long id) {
-        cart.increaseProductQuantity(id);
+        cart.increaseItemQuantity(id);
     }
 
     public void decreaseProductQuantity(Long id) {
-        cart.decreaseProductQuantity(id);
+        cart.decreaseItemQuantity(id);
     }
 
     public void removeProduct(Long id) {
         cart.removeProduct(id);
     }
 
-//    public void deleteProductById(Long id) {
-//        cart.getProductDTOList().removeIf(p -> p.getId().equals(id));
-//    }
+    public void clearCart() {
+        this.cart = new Cart();
+    }
+
 }
