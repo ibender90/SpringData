@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.market.api.DTO.CartDto;
 import ru.geek.market.cart.converters.CartConverter;
-import ru.geek.market.cart.model.Cart;
 import ru.geek.market.cart.service.CartService;
 
 
@@ -27,7 +26,7 @@ public class CartController {
 
     @GetMapping("/add/{product_id}")
     public void addProductToCart(@PathVariable Long product_id){
-        cartService.add(product_id);
+        cartService.addProductToCart(product_id);
     }
 
     @GetMapping("/increase/{product_id}")

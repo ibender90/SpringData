@@ -28,8 +28,7 @@ public class ProductService {
 
     public Page<Product> find(Double minPrice, Double maxPrice, String namePart, Integer page) {
         Specification<Product> spec = Specification.where(null);
-        //todo
-        //select p from Products p where true ??? что
+
         if (minPrice != null) {
             spec = spec.and(ProductSpecification.priceGreaterOrEqualsThan(minPrice));
             //select p from Products p where true AND p.price > minPrice

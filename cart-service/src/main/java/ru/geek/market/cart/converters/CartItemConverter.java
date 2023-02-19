@@ -11,7 +11,7 @@ public class CartItemConverter {
         cartItemDto.setProductId(cartItem.getProductId());
         cartItemDto.setProductName(cartItem.getProductName());
         cartItemDto.setProductPrice(cartItem.getProductPrice());
-        cartItemDto.setPriceCalculated(cartItem.getProductPrice());
+        cartItemDto.setPriceCalculated(cartItem.getPriceCalculated());
         cartItemDto.setQuantity(cartItem.getQuantity());
         return cartItemDto;
     }
