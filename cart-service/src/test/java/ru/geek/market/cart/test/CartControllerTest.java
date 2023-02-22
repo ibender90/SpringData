@@ -52,6 +52,4 @@ public class CartControllerTest {
                 .andExpect(jsonPath("$.cartItems").isArray())
                 .andExpect(jsonPath("$.cartItems", hasSize(0)));
     }
-
-
 }

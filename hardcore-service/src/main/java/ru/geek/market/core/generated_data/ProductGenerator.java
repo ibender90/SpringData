@@ -11,8 +11,7 @@ import ru.geek.market.core.model.Category;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.repository.ProductRepository;
 
-//temporary stopped, enough vegetables
-//@Component
+@Component
 @Slf4j
 @LogExecutionTime
 public class ProductGenerator {
