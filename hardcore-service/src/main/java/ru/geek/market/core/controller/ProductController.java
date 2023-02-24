@@ -70,7 +70,7 @@ public class ProductController {
     @PutMapping()
     public ProductDto updateProduct(@RequestBody ProductDto productDTO) {
         productValidator.validate(productDTO);
-        Product updatedProduct = productService.update(productDTO);
+        Product updatedProduct = productService.updateProduct(productDTO);
         return productDTOconverter.covertProductEntityToDTO(updatedProduct);
     }
 }

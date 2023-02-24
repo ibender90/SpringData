@@ -61,7 +61,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Product update(ProductDto updatedProductDTO) {
+    public Product updateProduct(ProductDto updatedProductDTO) {
         Product productEntity = productRepository.findById(updatedProductDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Product with given id not found"));
         productEntity.setPrice(updatedProductDTO.getPrice());
         productEntity.setName(updatedProductDTO.getName());

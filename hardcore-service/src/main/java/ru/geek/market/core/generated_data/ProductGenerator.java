@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.geek.market.core.annotation.LogExecutionTime;
 import ru.geek.market.core.model.Category;
 import ru.geek.market.core.model.Product;
@@ -26,7 +27,7 @@ public class ProductGenerator {
         this.productRepository = productRepository;
     }
 
-
+    @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateDataForDataBase() {
         Faker faker = new Faker();
@@ -37,7 +38,6 @@ public class ProductGenerator {
             product.setCategory(firstCategory);
             product.setName(faker.food().vegetable());
             product.setPrice(Math.ceil((faker.random().nextDouble()) * SCALE) / SCALE);
-
             productRepository.save(product);
         }
         log.info("Products generated successfully");

@@ -4,7 +4,6 @@ import org.springframework.data.jpa.domain.Specification;
 import ru.geek.market.core.model.Product;
 
 public class ProductSpecification {
-    //почему мы не создаём бин этого класса?
     public static Specification<Product> priceGreaterOrEqualsThan(Double price){
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("price"), price);
     }
