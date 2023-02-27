@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.geek.winter-market</groupId>
-    <artifactId>hardcore-service</artifactId>
+    <artifactId>core-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>

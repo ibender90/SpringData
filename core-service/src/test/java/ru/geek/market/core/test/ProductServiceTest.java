@@ -33,7 +33,6 @@ import static org.mockito.Mockito.mock;
 //package name is important!
 @SpringBootTest(classes = ProductService.class) //only one bean is needed from the context
 public class ProductServiceTest {
-    //todo test all methods
 
     @Autowired
     ProductService productService;

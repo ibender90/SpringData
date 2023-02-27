@@ -2,6 +2,8 @@ package ru.geek.market.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.market.api.DTO.ProductDto;
 import ru.geek.market.api.DTO.ResourceNotFoundException;
@@ -59,7 +61,7 @@ public class ProductController {
         productService.deleteProductById(id);
     }
 
-    @PostMapping()
+    @PostMapping(produces= MediaType.APPLICATION_JSON_VALUE)
     public ProductDto saveNewProduct(@RequestBody ProductDto productDTO) {
         productValidator.validate(productDTO);
         productDTO.setCategoryTitle("Other vegetables"); //todo choose category field
