@@ -1,5 +1,6 @@
 package ru.geek.market.cart.model;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.geek.market.api.DTO.ProductDto;
 
@@ -9,20 +10,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
+@Data
 public class Cart {
     private List<CartItem> cartItems;
-
-    public Cart(List<CartItem> cartItems, BigDecimal totalPrice) { //for testing
+    private BigDecimal totalPrice;
+    public Cart(List<CartItem> cartItems, BigDecimal totalPrice) {
         this.cartItems = cartItems;
         this.totalPrice = totalPrice;
     }
-
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(cartItems);
-    }
-
-    private BigDecimal totalPrice;
 
     public Cart() {
         this.cartItems = new ArrayList<>();
@@ -84,7 +79,9 @@ public class Cart {
         calculateTotalPrice();
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
+
+    public void clear() {
+        cartItems.clear();
+        totalPrice = BigDecimal.ZERO;
     }
 }
