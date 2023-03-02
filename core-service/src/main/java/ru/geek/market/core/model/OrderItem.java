@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,19 +22,19 @@ public class OrderItem {
     private Product product;
 
     @Column(name = "price_per_product")
-    private Double pricePerProduct;
+    private BigDecimal pricePerProduct;
 
     @Column(name = "quantity")
     private Integer quantity;
 
     @Column(name = "total_price")
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
     Order order;
 
-    public OrderItem(Product product, Double pricePerProduct, Integer quantity, Double totalPrice, Order order) {
+    public OrderItem(Product product, BigDecimal pricePerProduct, Integer quantity, BigDecimal totalPrice, Order order) {
         this.product = product;
         this.pricePerProduct = pricePerProduct;
         this.quantity = quantity;

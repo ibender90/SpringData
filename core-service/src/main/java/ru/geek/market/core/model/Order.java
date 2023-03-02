@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.geek.market.api.DTO.CartDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -17,7 +18,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
     @Column(name = "total_price_from_cart")
-    private Double totalPriceFromCart;
+    private BigDecimal totalPriceFromCart;
 
     @Column(name = "items")
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)

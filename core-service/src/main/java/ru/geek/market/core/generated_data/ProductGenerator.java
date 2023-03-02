@@ -12,6 +12,8 @@ import ru.geek.market.core.model.Category;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.repository.ProductRepository;
 
+import java.math.BigDecimal;
+
 @Component
 @Slf4j
 @LogExecutionTime
@@ -30,6 +32,10 @@ public class ProductGenerator {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateDataForDataBase() {
+        if(productRepository.findById(1L).isPresent()){
+            log.info("Products exist in database, no generation is needed");
+            return;
+        }
         Faker faker = new Faker();
         Category firstCategory = new Category();
         firstCategory.setId(1L);
@@ -37,7 +43,7 @@ public class ProductGenerator {
             Product product = new Product();
             product.setCategory(firstCategory);
             product.setName(faker.food().vegetable());
-            product.setPrice(Math.ceil((faker.random().nextDouble()) * SCALE) / SCALE);
+            product.setPrice(BigDecimal.valueOf(Math.ceil((faker.random().nextDouble()) * SCALE) / SCALE));
             productRepository.save(product);
         }
         log.info("Products generated successfully");

@@ -1,10 +1,34 @@
-angular.module('data_and_angular', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage){
-    const authPath = 'http://localhost:8188/auth';
-    const corePath = 'http://localhost:8188/core';
-    const cartPath = 'http://localhost:8188/cart';
+(function () {
+    angular
+        .module('market', ['ngRoute', 'ngStorage'])
+        .config(config)
+        .run(run);
 
+    function config($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'welcome/welcome.html',
+                controller: 'welcomeController'
+            })
+            .when('/store', {
+                templateUrl: 'store/store.html',
+                controller: 'storeController'
+            })
+            .when('/cart', {
+                templateUrl: 'cart/cart.html',
+                controller: 'cartController'
+            })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }
 
-    if ($localStorage.marchMarketUser) {
+    function run($rootScope, $http, $localStorage) {
+        if ($localStorage.marchMarketUser) {
             try {
                 let jwt = $localStorage.marchMarketUser.token;
                 let payload = JSON.parse(atob(jwt.split('.')[1]));
@@ -20,116 +44,48 @@ angular.module('data_and_angular', ['ngStorage']).controller('indexController', 
             if ($localStorage.marchMarketUser) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.marchMarketUser.token;
             }
-    }
-
-    $scope.tryToAuth = function () {
-            $http.post(authPath + '/auth/authenticate', $scope.user)
-                .then(function successCallback(response) {
-                    if (response.data.token) {
-                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
-                        $localStorage.marchMarketUser = {email: $scope.user.email, token: response.data.token};
-
-                        $scope.user.email = null;
-                        $scope.user.password = null;
-                    }
-                }, function errorCallback(response) {
+        }
+        if (!$localStorage.marchMarketGuestCartId) {
+            $http.get('http://localhost:8188/carts/api/v1/carts/generate_uuid')
+                .then(function (response) {
+                    $localStorage.marchMarketGuestCartId = response.data.value;
                 });
+        }
+    }
+})();
+
+angular.module('market').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
+    $scope.tryToAuth = function () {
+        $http.post('http://localhost:8188/auth/api/v1/auth/authenticate', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.marchMarketUser = {username: $scope.user.username, token: response.data.token};
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+
+                    $location.path('/');
+                }
+            }, function errorCallback(response) {
+            });
     };
 
     $scope.tryToLogout = function () {
-            $scope.clearUser();
+        $scope.clearUser();
+        $location.path('/');
     };
 
     $scope.clearUser = function () {
-            delete $localStorage.marchMarketUser;
-            $http.defaults.headers.common.Authorization = '';
+        delete $localStorage.marchMarketUser;
+        $http.defaults.headers.common.Authorization = '';
     };
 
-    $scope.isUserLoggedIn = function () {
-            if ($localStorage.marchMarketUser) {
-                return true;
-            } else {
-                return false;
-            }
+    $rootScope.isUserLoggedIn = function () {
+        if ($localStorage.marchMarketUser) {
+            return true;
+        } else {
+            return false;
+        }
     };
-    $scope.loadProducts = function (pageIndex = 1) {
-        $http({
-            url: corePath + '/products',
-            method: 'GET',
-            params: {
-                name_part: $scope.filter ? $scope.filter.name_part : null,
-                min_price: $scope.filter ? $scope.filter.min_price : null,
-                max_price: $scope.filter ? $scope.filter.max_price : null
-            }
-        }).then(function (response){
-                $scope.ProductsList = response.data.content;
-            }).catch(angular.noop);
-    };
-
-    $scope.showProductInfo = function (productID) {
-        $http.get(corePath + '/products/' + productID)
-            .then(function (response){
-                alert(response.data);
-            });
-    };
-
-    $scope.loadCart = function () {
-        $http.get(cartPath + '/carts')
-            .then(function (response){
-                    $scope.cart = response.data;
-                }).catch(angular.noop);
-    };
-
-    $scope.removeProductFromCart = function (itemID) {
-        $http.delete(cartPath + '/carts/remove/' + itemID)
-            .then(function (response){
-                 $scope.loadCart();
-        });
-    };
-
-    $scope.reduceQuantity = function (itemID) {
-        $http.get(cartPath + '/carts/reduce/' + itemID)
-              .then(function (response){
-                            $scope.loadCart();
-        });
-    };
-
-    $scope.increaseQuantity = function (itemID) {
-        $http.get(cartPath + '/carts/increase/' + itemID)
-            .then(function (response){
-                 $scope.loadCart();
-        });
-    };
-
-
-    $scope.deleteProduct = function (productID) {
-        $http.delete(corePath + '/products/' + productID)
-            .then(function (response){
-                $scope.loadProducts();
-        });
-    };
-
-    $scope.addNewProduct = function(newProduct){
-        $http.post(corePath + '/products', $scope.newProduct)
-            .then(function (response){
-                $scope.loadProducts();
-        });
-    };
-
-    $scope.addProductToCart = function(productId){
-            $http.get(cartPath + '/carts/add/' + productId)
-                .then(function (response){
-                    $scope.loadCart();
-            });
-        };
-
-    $scope.placeOrder = function(){
-            $http.post(corePath + '/orders/new')
-                .then(function(response){
-                    alert(response.data);
-                });
-    };
-
-    $scope.loadProducts();
-    $scope.loadCart();
 });

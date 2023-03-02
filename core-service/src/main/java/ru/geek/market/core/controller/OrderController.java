@@ -15,7 +15,7 @@ import java.security.Principal;
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void placeOrder(@RequestHeader String username){
         orderService.placeNewOrder(username);

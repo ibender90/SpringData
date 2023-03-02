@@ -7,7 +7,7 @@ create table categories (
 create table products (
     id bigserial primary key,
     "name" varchar(255),
-    price decimal(12, 2),
+    price numeric(8, 2),
     category_id bigint references categories (id));
 
 
@@ -23,7 +23,7 @@ insert into categories (title) values ('Other vegetables'), ('Exotic vegetables'
 create table orders (
     id bigserial primary key,
     user_name varchar(255),
-    total_price_from_cart decimal(12, 2)
+    total_price_from_cart numeric(8, 2)
 );
 
 create table order_items
@@ -31,9 +31,9 @@ create table order_items
     id                      bigserial primary key,
     order_id                bigint references orders,
     product_id              bigint references products (id),
-    price_per_product       decimal(12, 2),
+    price_per_product       numeric(8, 2),
     quantity                int,
-    total_price             decimal(12, 2)
+    total_price             numeric(8, 2)
 );
 
 

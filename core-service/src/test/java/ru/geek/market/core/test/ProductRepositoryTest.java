@@ -11,6 +11,7 @@ import ru.geek.market.core.model.Category;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.repository.ProductRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @DataJpaTest
@@ -24,7 +25,7 @@ public class ProductRepositoryTest {
     @Test
     void productRepositoryTest() { //todo add test settings in properties
         Category category = new Category(1L, "Other vegetables", null);
-        Product product = new Product(1L, "Vegetable", 1.0D, category);
+        Product product = new Product(1L, "Vegetable", BigDecimal.valueOf(1.00), category);
 
         testEntityManager.persist(product);
         testEntityManager.flush();

@@ -26,15 +26,15 @@ spring:
             - Path=/core/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/market-core/api/v1
+            - PrefixPath=/market-core
             - JwtAuthFilter
         - id: cart-service
           uri: http://localhost:8182
           predicates:
-            - Path=/cart/**
+            - Path=/carts/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/market-carts/api/v1
+            - PrefixPath=/market-carts
             - JwtAuthFilter
         - id: auth-service
           uri: http://localhost:8185
@@ -42,7 +42,7 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-            - PrefixPath=/market-auth/api/v1
+            - PrefixPath=/market-auth
             - JwtAuthFilter
 
 jwt:

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,11 +18,10 @@ import ru.geek.market.core.model.Product;
 import ru.geek.market.core.service.ProductService;
 import ru.geek.market.core.validator.ProductValidator;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -45,9 +43,9 @@ public class ProductControllerTest {
     @MockBean
     ProductValidator productValidator;
 
-    private final ProductDto productDto = new ProductDto(1L, "Vegetable", 1.0D, "Other vegetables");
+    private final ProductDto productDto = new ProductDto(1L, "Vegetable", BigDecimal.valueOf(1.00), "Other vegetables");
     private final Category category = new Category(1L, "Other vegetables", null);
-    private final Product product = new Product(1L, "Vegetable", 1.0D, category);
+    private final Product product = new Product(1L, "Vegetable", BigDecimal.valueOf(1.00), category);
 
     @Test
     void getProductByIDTest() throws Exception {
@@ -61,9 +59,9 @@ public class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$.id").value(1.0))
+                .andExpect(jsonPath("$.id").value(1.00))
                 .andExpect(jsonPath("$.name").value("Vegetable"))
-                .andExpect(jsonPath("$.price").value(1.0D))
+                .andExpect(jsonPath("$.price").value(1.00))
                 .andExpect(jsonPath("$.categoryTitle").value("Other vegetables"));
     }
 

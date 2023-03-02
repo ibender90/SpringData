@@ -3,6 +3,7 @@ package ru.geek.market.cart.model;
 import lombok.extern.slf4j.Slf4j;
 import ru.geek.market.api.DTO.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Objects;
 public class Cart {
     private List<CartItem> cartItems;
 
-    public Cart(List<CartItem> cartItems, Double totalPrice) { //for testing
+    public Cart(List<CartItem> cartItems, BigDecimal totalPrice) { //for testing
         this.cartItems = cartItems;
         this.totalPrice = totalPrice;
     }
@@ -21,11 +22,11 @@ public class Cart {
         return Collections.unmodifiableList(cartItems);
     }
 
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.cartItems = new ArrayList<>();
-        this.totalPrice = 0.0D;
+        this.totalPrice = BigDecimal.ZERO;
     }
 
     public void addProductToCart(ProductDto product) {
@@ -46,10 +47,10 @@ public class Cart {
     }
 
     private void calculateTotalPrice() {
-        totalPrice = 0.0D;
+        totalPrice = BigDecimal.ZERO;
         if (!cartItems.isEmpty()) {
             for (CartItem item : cartItems)
-                totalPrice += (item.getProductPrice() * item.getQuantity());
+                totalPrice = totalPrice.add(item.getPriceCalculated());
         }
     }
 
@@ -83,7 +84,7 @@ public class Cart {
         calculateTotalPrice();
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 }

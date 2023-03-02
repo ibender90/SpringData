@@ -14,9 +14,10 @@ import ru.geek.market.api.DTO.ResourceNotFoundException;
 public class CartServiceIntegration {
     private final WebClient cartServiceWebClient;
 
-    public CartDto getCurrentCart() {
+    public CartDto getCurrentCart(String username) {
         return cartServiceWebClient.get()
-                .uri("/api/v1/carts")
+                .uri("/api/v1/carts/0")
+                .header("username", username)
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::is4xxClientError,
@@ -26,10 +27,12 @@ public class CartServiceIntegration {
                 .block();
     }
 
-    public void ClearCart(){
+    public void ClearCart(String username){
         cartServiceWebClient.delete()
-                .uri("/api/v1/carts")
+                .uri("/api/v1/carts/0")
+                .header("username", username)
                 .retrieve()
                 .toBodilessEntity();
     }
+    //username will be taken from token /0 means that uuid is not needed
 }

@@ -26,6 +26,7 @@ import ru.geek.market.core.service.CategoryService;
 import ru.geek.market.core.service.ProductService;
 import ru.geek.market.core.specification.ProductSpecification;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
@@ -42,8 +43,8 @@ public class ProductServiceTest {
     CategoryService categoryService;
 
     private final Category category = new Category(1L, "Other vegetables", null);
-    private final ProductDto productDto = new ProductDto(1L, "Vegetable", 1.0D, "Other vegetables");
-    private final Product product = new Product(1L, "Vegetable", 1.0D, category);
+    private final ProductDto productDto = new ProductDto(1L, "Vegetable", BigDecimal.valueOf(1.00), "Other vegetables");
+    private final Product product = new Product(1L, "Vegetable", BigDecimal.valueOf(1.00), category);
 
     @Test
     void testTest() {
@@ -64,7 +65,7 @@ public class ProductServiceTest {
         Product wrongProduct = new Product();
         wrongProduct.setName("Banana");
         wrongProduct.setCategory(null);
-        wrongProduct.setPrice(0.0);
+        wrongProduct.setPrice(BigDecimal.valueOf(0.00));
 
         Assertions.assertEquals(productService.createNewProduct(productDto), expectedProduct);
         Assertions.assertNotEquals(productService.createNewProduct(productDto), wrongProduct);
@@ -76,7 +77,7 @@ public class ProductServiceTest {
 
         Mockito.doReturn(Optional.of(product)).when(productRepository).findById(1L);
 
-        ProductDto productToUpdateDto = new ProductDto(1L, "Fresh vegetable", 2.0D, "Other vegetables");
+        ProductDto productToUpdateDto = new ProductDto(1L, "Fresh vegetable", BigDecimal.valueOf(2.00), "Other vegetables");
         Product updatedProduct =  productService.updateProduct(productToUpdateDto);
 
         Assertions.assertEquals(productToUpdateDto.getId(), updatedProduct.getId());
