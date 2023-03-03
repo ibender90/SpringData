@@ -1,6 +1,7 @@
 package ru.geek.market.core.service;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geek.market.api.DTO.CartDto;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
     private final ProductService productService;
     private final OrderRepository orderRepository;
@@ -44,5 +45,9 @@ public class OrderService {
 
         cartServiceIntegration.ClearCart(username);
         //return order
+    }
+
+    public List<Order> findByUsername(String username){
+        return orderRepository.findByUserName(username);
     }
 }

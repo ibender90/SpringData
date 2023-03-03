@@ -12,7 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.geek.market.api.DTO.ProductDto;
-import ru.geek.market.core.DTOconverter.ProductDTOconverter;
+import ru.geek.market.core.DTOconverter.ProductConverter;
 import ru.geek.market.core.model.Category;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.service.ProductService;
@@ -38,7 +38,7 @@ public class ProductControllerTest {
     ProductService productService;
 
     @MockBean
-    ProductDTOconverter productDTOconverter;
+    ProductConverter productConverter;
 
     @MockBean
     ProductValidator productValidator;
@@ -51,7 +51,7 @@ public class ProductControllerTest {
     void getProductByIDTest() throws Exception {
 
         Mockito.doReturn(Optional.of(product)).when(productService).findProductById(1L);
-        Mockito.doReturn(productDto).when(productDTOconverter).covertProductEntityToDTO(product);
+        Mockito.doReturn(productDto).when(productConverter).covertProductEntityToDTO(product);
 
         mvc.perform(
                         get("/api/v1/products/1")
@@ -77,7 +77,7 @@ public class ProductControllerTest {
     void saveNewProductTest() throws Exception {
 
         Mockito.doReturn(product).when(productService).createNewProduct(productDto);
-        Mockito.doReturn(productDto).when(productDTOconverter).covertProductEntityToDTO(product);
+        Mockito.doReturn(productDto).when(productConverter).covertProductEntityToDTO(product);
 
         //make a JSON from productDTO to pass into BODY
         ObjectMapper mapper = new ObjectMapper();

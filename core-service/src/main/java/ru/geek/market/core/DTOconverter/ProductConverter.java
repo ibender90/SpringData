@@ -5,7 +5,7 @@ import ru.geek.market.api.DTO.ProductDto;
 import ru.geek.market.core.model.Product;
 
 @Component
-public class ProductDTOconverter {
+public class ProductConverter {
 
 //    public Product convertDTOtoProductEntity(ProductDTO productDTOToConvert){
 //        return new Product(productDTOToConvert.getId(), productDTOToConvert.getName(), productDTOToConvert.getPrice());

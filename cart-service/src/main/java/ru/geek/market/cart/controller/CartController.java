@@ -21,7 +21,6 @@ public class CartController {
 
     @GetMapping("/generate_uuid")
     public StringResponse generateUuid(){
-        log.info("generating uuid");
         return new StringResponse(UUID.randomUUID().toString());
     }
 
@@ -49,7 +48,6 @@ public class CartController {
             @PathVariable String uuid,
             @PathVariable Long product_id){
 
-        log.info("uuid: " + uuid);
         String targetUuid = getCartUuid(username, uuid);
         cartService.addProductToCart(targetUuid, product_id);
     }

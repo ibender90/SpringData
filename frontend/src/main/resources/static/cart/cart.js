@@ -40,7 +40,7 @@ angular.module('market').controller('cartController', function ($scope, $http, $
     $scope.placeOrder = function () {
         $http.post('http://localhost:8188/core/api/v1/orders')
             .then(function (response) {
-                $scope.loadCart();
+                $location.path("/orders")
             });
     };
 

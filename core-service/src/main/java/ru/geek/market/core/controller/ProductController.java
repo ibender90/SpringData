@@ -3,11 +3,10 @@ package ru.geek.market.core.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.market.api.DTO.ProductDto;
 import ru.geek.market.api.DTO.ResourceNotFoundException;
-import ru.geek.market.core.DTOconverter.ProductDTOconverter;
+import ru.geek.market.core.DTOconverter.ProductConverter;
 import ru.geek.market.core.model.Product;
 import ru.geek.market.core.service.ProductService;
 import ru.geek.market.core.validator.ProductValidator;
@@ -16,7 +15,7 @@ import ru.geek.market.core.validator.ProductValidator;
 @RequestMapping("api/v1/products")
 public class ProductController {
     private final ProductService productService;
-    private final ProductDTOconverter productDTOconverter;
+    private final ProductConverter productConverter;
 
     private final ProductValidator productValidator;
 
@@ -31,7 +30,7 @@ public class ProductController {
             page = 1;
         }
         return productService.find(minPrice, maxPrice, namePart, page).map(
-                productDTOconverter::covertProductEntityToDTO
+                productConverter::covertProductEntityToDTO
         );
     }
 
@@ -50,7 +49,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProductByID(@PathVariable Long id) {
-        return productDTOconverter.covertProductEntityToDTO(
+        return productConverter.covertProductEntityToDTO(
                 productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException( //Global exception handler перехватит эту ошибку и упакует в Response entity
                         "Product not found, id: " + id)
                 ));
@@ -66,13 +65,13 @@ public class ProductController {
         productValidator.validate(productDTO);
         productDTO.setCategoryTitle("Other vegetables"); //todo choose category field
         Product newProduct = productService.createNewProduct(productDTO);
-        return productDTOconverter.covertProductEntityToDTO(newProduct);
+        return productConverter.covertProductEntityToDTO(newProduct);
     }
 
     @PutMapping()
     public ProductDto updateProduct(@RequestBody ProductDto productDTO) {
         productValidator.validate(productDTO);
         Product updatedProduct = productService.updateProduct(productDTO);
-        return productDTOconverter.covertProductEntityToDTO(updatedProduct);
+        return productConverter.covertProductEntityToDTO(updatedProduct);
     }
 }

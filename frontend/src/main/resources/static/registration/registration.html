@@ -1,0 +1,28 @@
+<div>
+    <p></p>
+    <h3>Registration form</h3>
+    <p></p>
+    <form novalidate ng-submit="register()">
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="username" placeholder="" ng-model="reguser.userName">
+            <label for="username">Login (name)</label>
+        </div>
+        <div class="form-floating input-group-sm">
+            <input type="text" class="form-control" id="email" placeholder="" ng-model="reguser.email">
+            <label for="email">Email</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="password" class="form-control" id="pass" placeholder="" ng-model="reguser.pass">
+            <label for="pass">password</label>
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <input type="password" class="form-control" id="confirmPass" placeholder="" ng-model="reguser.confirmPass">
+            <label for="confirmPass">confirm password</label>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 100%;" type="submit">Register</button>
+    </form>
+    <p></p>
+</div>
