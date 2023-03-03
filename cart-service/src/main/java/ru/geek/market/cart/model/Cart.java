@@ -1,31 +1,27 @@
 package ru.geek.market.cart.model;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import ru.geek.market.api.DTO.ProductDto;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
+@Data
 public class Cart {
     private List<CartItem> cartItems;
-
-    public Cart(List<CartItem> cartItems, Double totalPrice) { //for testing
+    private BigDecimal totalPrice;
+    public Cart(List<CartItem> cartItems, BigDecimal totalPrice) {
         this.cartItems = cartItems;
         this.totalPrice = totalPrice;
     }
 
-    public List<CartItem> getItems() {
-        return Collections.unmodifiableList(cartItems);
-    }
-
-    private Double totalPrice;
-
     public Cart() {
         this.cartItems = new ArrayList<>();
-        this.totalPrice = 0.0D;
+        this.totalPrice = BigDecimal.ZERO;
     }
 
     public void addProductToCart(ProductDto product) {
@@ -46,10 +42,10 @@ public class Cart {
     }
 
     private void calculateTotalPrice() {
-        totalPrice = 0.0D;
+        totalPrice = BigDecimal.ZERO;
         if (!cartItems.isEmpty()) {
             for (CartItem item : cartItems)
-                totalPrice += (item.getProductPrice() * item.getQuantity());
+                totalPrice = totalPrice.add(item.getPriceCalculated());
         }
     }
 
@@ -83,7 +79,9 @@ public class Cart {
         calculateTotalPrice();
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
+
+    public void clear() {
+        cartItems.clear();
+        totalPrice = BigDecimal.ZERO;
     }
 }

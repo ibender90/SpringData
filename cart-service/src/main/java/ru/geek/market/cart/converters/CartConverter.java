@@ -16,7 +16,7 @@ public class CartConverter {
         CartDto cartDto = new CartDto();
         cartDto.setTotalPrice(cart.getTotalPrice());
         cartDto.setCartItems(
-                cart.getItems().stream().map(cartItemConverter::entityToDto).collect(Collectors.toList())
+                cart.getCartItems().stream().map(cartItemConverter::entityToDto).collect(Collectors.toList())
         );
         return cartDto;
     }

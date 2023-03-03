@@ -10,10 +10,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.geek.market.api.DTO.AppError;
 import ru.geek.market.api.DTO.JwtRequest;
 import ru.geek.market.api.DTO.JwtResponse;
+import ru.geek.market.api.DTO.RegisterUserDto;
+import ru.geek.market.auth.entities.User;
 import ru.geek.market.auth.services.JwtService;
 import ru.geek.market.auth.services.UserService;
 
@@ -43,8 +46,8 @@ public class AuthController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -58,4 +61,22 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody RegisterUserDto registerUserDto){
+
+        if(!registerUserDto.getPass().equals(registerUserDto.getConfirmPass())){
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "Passwords mismatch"), HttpStatus.BAD_REQUEST);
+        }
+        if(userService.findByUsername(registerUserDto.getUserName()).isPresent()){
+            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), "This login is already in use"), HttpStatus.BAD_REQUEST);
+        }
+        User user = new User();
+        user.setUsername(registerUserDto.getUserName());
+        user.setPassword(passwordEncoder.encode(registerUserDto.getPass()));
+        userService.createUser(user);
+
+        UserDetails userDetails = userService.loadUserByUsername(registerUserDto.getUserName());
+        String token = jwtService.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
 }

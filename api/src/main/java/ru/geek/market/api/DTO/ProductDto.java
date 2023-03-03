@@ -1,13 +1,15 @@
 package ru.geek.market.api.DTO;
 
 
+import java.math.BigDecimal;
+
 public class ProductDto {
     private Long id;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private String categoryTitle;
 
-    public ProductDto(Long id, String name, Double price, String categoryTitle) {
+    public ProductDto(Long id, String name, BigDecimal price, String categoryTitle) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,11 +35,11 @@ public class ProductDto {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

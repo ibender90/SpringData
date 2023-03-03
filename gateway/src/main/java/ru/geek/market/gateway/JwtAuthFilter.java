@@ -25,7 +25,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-            if (request.getHeaders().containsKey("username")) {
+            if (request.getHeaders().containsKey("username")) { //hackers tried to steal vegetables
                 return this.onError(exchange, "Invalid header username", HttpStatus.BAD_REQUEST);
             }
 
