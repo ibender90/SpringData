@@ -69,12 +69,18 @@ public class ProductService {
     }
 
     @Transactional
-    public Product createNewProduct(ProductDto productDTO){
-        Product product = new Product();
-        product.setPrice(productDTO.getPrice());
-        product.setName(productDTO.getName());
-        Category category = categoryService.findByTitle(productDTO.getCategoryTitle()).orElseThrow(()-> new ResourceNotFoundException("Category with such title not found"));
-        product.setCategory(category);
+    public Product createNewProduct(ProductDto productDTO) {
+        Product product = new Product.ProductBuilder()
+                .name(productDTO.getName())
+                .price(productDTO.getPrice())
+                .category(categoryService.findByTitle(productDTO.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category with such title not found")))
+                .build();
+//        old implementation without builder
+//        Product product = new Product();
+//        product.setPrice(productDTO.getPrice());
+//        product.setName(productDTO.getName());
+//        Category category = categoryService.findByTitle(productDTO.getCategoryTitle()).orElseThrow(() -> new ResourceNotFoundException("Category with such title not found"));
+//        product.setCategory(category);
         productRepository.save(product);
         return product;
     }
