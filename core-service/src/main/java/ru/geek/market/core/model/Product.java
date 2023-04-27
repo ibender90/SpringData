@@ -26,4 +26,37 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public Product(ProductBuilder productBuilder){
+        this.name = productBuilder.name;
+        this.price = productBuilder.price;
+        this.category = productBuilder.category;
+    }
+
+    public static class ProductBuilder{
+        private String name;
+        private BigDecimal price;
+        private Category category;
+
+        public ProductBuilder() {
+        }
+        public ProductBuilder name(String name){
+            this.name = name;
+            return this;
+        }
+
+        public ProductBuilder price(BigDecimal price){
+            this.price = price;
+            return this;
+        }
+
+        public ProductBuilder category(Category category){
+            this.category = category;
+            return this;
+        }
+
+        public Product build(){
+            return new Product(this);
+        }
+    }
 }

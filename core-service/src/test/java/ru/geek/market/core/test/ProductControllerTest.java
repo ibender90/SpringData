@@ -85,7 +85,7 @@ public class ProductControllerTest {
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String JsonProductDto = ow.writeValueAsString(productDto);
 
-        mvc.perform(post("/api/v1/products")
+        mvc.perform(post("/api/employees")
                         .contentType(APPLICATION_JSON)
                         .content(JsonProductDto))
                 .andDo(print())
