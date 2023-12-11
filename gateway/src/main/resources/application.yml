@@ -1,10 +1,6 @@
 server:
   port: 8188
 
-#logging:
-#  level:
-#    org.springframework.cloud.gateway.handler.RoutePredicateHandlerMapping: TRACE
-
 spring:
   application:
     name: gateway
