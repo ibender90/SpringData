@@ -34,19 +34,6 @@ public class ProductController {
         );
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getProductById(@PathVariable Long id) {
-//
-//        Optional<Product> product = productService.findProductById(id);
-//
-//        if (product.isEmpty()) { // если продукта в контейнере нет
-//            return new ResponseEntity<AppError>(
-//                    new AppError(HttpStatus.NOT_FOUND.value(), "Product not found"), HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<ProductDTO>( //если продукт есть, конвертирую в DTO и отсылаю как response entity
-//                productDTOconverter.covertProductEntityToDTO(product.get()), HttpStatus.OK);
-//    }
-
     @GetMapping("/{id}")
     public ProductDto getProductByID(@PathVariable Long id) {
         return productConverter.covertProductEntityToDTO(
