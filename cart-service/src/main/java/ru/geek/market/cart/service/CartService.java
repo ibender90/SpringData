@@ -1,23 +1,21 @@
 package ru.geek.market.cart.service;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import ru.geek.market.api.DTO.ProductDto;
-import ru.geek.market.cart.integrations.ProductServiceIntegration;
+
+import ru.geek.market.cart.integrations.SpringIntegration;
 import ru.geek.market.cart.model.Cart;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final ProductServiceIntegration productServiceIntegration;
+    private final SpringIntegration productServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
     @Value("${cart-service.cart-prefix}") //for redis
     private String cartPrefix;

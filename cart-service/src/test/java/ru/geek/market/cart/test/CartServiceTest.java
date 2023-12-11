@@ -1,20 +1,7 @@
 package ru.geek.market.cart.test;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.geek.market.api.DTO.ProductDto;
-import ru.geek.market.cart.integrations.ProductServiceIntegration;
 import ru.geek.market.cart.model.Cart;
-import ru.geek.market.cart.model.CartItem;
-import ru.geek.market.cart.service.CartService;
 
-import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.*;
 //@SpringBootTest(classes = CartService.class)
 class CartServiceTest extends Cart {
 //    @Autowired
